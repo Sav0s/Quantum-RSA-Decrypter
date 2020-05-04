@@ -1,11 +1,26 @@
-import rsa
+import sys
+
+from rsa import RSA
+
 
 def factorize(factor):
     result = list()
     for i in range(2, factor):
-        if n % i == 0:
+        if factor % i == 0:
             result.append(i)
+        if i % 1000 == 2:
+            printProgress(i, factor)
+        if len(result) == 2:
+            break
+    print("\n")
     return result[0], result[1]
+
+
+def calculateD(e, phi):
+    a, d, k = extgcd(e, phi)
+    if d < 0:
+        d += phi
+    return d
 
 
 def extgcd(a, b):
@@ -18,11 +33,32 @@ def extgcd(a, b):
     return a, u, v
 
 
-if __name__ == '__main__':
-    e, n = rsa.createRSA(16 )
-    print(e, n)
-    p, q = factorize(n)
+def printProgress(iteration, total):
+    sys.stdout.write('\r|---Tried %s from %s possibilties---|' % (iteration, total))
+    sys.stdout.flush()
+
+
+def main():
+    bits = 52
+    if bits % 2 != 0:
+        exit(0)
+    bits = int(bits / 2)
+    rsa = RSA(bits)
+    message = "This message is encrypted"
+    cipher = rsa.encrypt(message)
+    keySize = len("{0:b}".format(rsa.n))
+    print(f"Message was encrypted with a key size of {keySize} Bits")
+
+    print("_____Starting Brute Force_____")
+    p, q = factorize(rsa.n)
     print(f"Found factors: {p} and {q}")
-    phi = (p - 1) * (q - 1)
-    a, d, k = extgcd(23, phi)
-    print(d, k)
+    print("_____Reconstructed Private Key_____")
+    d = calculateD(rsa.e, rsa.phi)
+    print(f"Found d: {d}")
+    print("_____Decrypting Message_____")
+    reconstructedMessage = rsa.decrypt(cipher)
+    print(reconstructedMessage)
+
+
+if __name__ == '__main__':
+    main()
