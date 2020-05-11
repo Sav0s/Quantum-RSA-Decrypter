@@ -1,5 +1,5 @@
-from python.Decrypt import IBMDecrypter
-from python.rsa import RSA
+from Decrypt import QSharpDecrypter
+from rsa import RSA
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
     print(f"Message was encrypted with a key size of {keySize} Bits")
 
     print("_____Starting Brute Force_____")
-    decrypter = IBMDecrypter()
+    decrypter = QSharpDecrypter()
     p, q = decrypter.factorize()
 
     print(f"Found factors: {p} and {q}")

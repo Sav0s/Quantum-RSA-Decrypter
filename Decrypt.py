@@ -1,10 +1,11 @@
+import qsharp
 import sys
 
+import acount
+from Microsoft.Quantum.Samples.IntegerFactorization import FactorInteger
 from qiskit import IBMQ, BasicAer
 from qiskit.aqua import QuantumInstance
 from qiskit.aqua.algorithms import Shor
-
-from python import acount
 
 
 class Decrypter:
@@ -46,7 +47,6 @@ class NumericDecrypter(Decrypter):
 
 class IBMDecrypter(Decrypter):
     def factorize(self, factor=15):
-        IBMQ.delete_account()
         IBMQ.save_account(acount.token)
         IBMQ.load_account()
         shor = Shor(factor)
@@ -57,6 +57,15 @@ class IBMDecrypter(Decrypter):
         computation = shor.run(quantum_instance)
         result = computation['factors'][0]
         return result[0], result[1]
+
+
+class QSharpDecrypter(Decrypter):
+    def factorize(self, factor=15):
+        output = FactorInteger.simulate(
+            number=factor,
+            useRobustPhaseEstimation=10,
+            raise_on_stderr=True)
+        return output
 
 
 def printProgress(iteration, total):
