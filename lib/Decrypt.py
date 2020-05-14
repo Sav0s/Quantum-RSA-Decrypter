@@ -1,16 +1,22 @@
 import qsharp
 import sys
 
-import acount
 from Microsoft.Quantum.Samples.IntegerFactorization import FactorInteger
 from qiskit import IBMQ, BasicAer
 from qiskit.aqua import QuantumInstance
 from qiskit.aqua.algorithms import Shor
 
+import acount
+
 
 class Decrypter:
-    def __index__(self):
+    def __init__(self, factor):
+        keySize = len("{0:b}".format(factor))
         self.a = 1
+        print(f"Message was encrypted with a key size of {keySize} Bits")
+
+    def factorize(self, factor):
+        pass
 
     def calculateD(self, e, phi):
         a, d, k = self._extgcd(e, phi)
@@ -27,18 +33,19 @@ class Decrypter:
             v, t = t, v - q * t
         return a, u, v
 
-    def factorize(self, factor):
-        pass
-
 
 class NumericDecrypter(Decrypter):
-    def factorize(self, factor):
+    def __init__(self, factor=15):
+        self.factor = factor
+        super(NumericDecrypter, self).__init__(factor)
+
+    def factorize(self):
         result = list()
-        for i in range(2, factor):
-            if factor % i == 0:
+        for i in range(2, self.factor):
+            if self.factor % i == 0:
                 result.append(i)
             if i % 1000 == 2:
-                printProgress(i, factor)
+                printProgress(i, self.factor)
             if len(result) == 2:
                 break
         print("\n")
@@ -46,6 +53,10 @@ class NumericDecrypter(Decrypter):
 
 
 class IBMDecrypter(Decrypter):
+    def __init__(self, factor=15):
+        self.factor = factor
+        super(IBMDecrypter, self).__init__(factor)
+
     def factorize(self, factor=15):
         IBMQ.save_account(acount.token)
         IBMQ.load_account()
@@ -60,9 +71,13 @@ class IBMDecrypter(Decrypter):
 
 
 class QSharpDecrypter(Decrypter):
-    def factorize(self, factor=15):
+    def __init__(self, factor=15):
+        self.factor = factor
+        super(QSharpDecrypter, self).__init__(factor)
+
+    def factorize(self):
         output = FactorInteger.simulate(
-            number=factor,
+            number=self.factor,
             useRobustPhaseEstimation=10,
             raise_on_stderr=True)
         return output

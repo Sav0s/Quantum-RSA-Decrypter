@@ -4,3 +4,8 @@
 dotnet tool install -g Microsoft.Quantum.IQSharp
 dotnet iqsharp install --user
 ```
+
+* To execute the IBM Decrypter you have to add a `acount.py` file in the parent directory with the content
+```
+token = '<Your IBM Token>'
+```
