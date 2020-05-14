@@ -58,6 +58,7 @@ class IBMDecrypter(Decrypter):
         super(IBMDecrypter, self).__init__(factor)
 
     def factorize(self, factor=15):
+        IBMQ.delete_account()
         IBMQ.save_account(acount.token)
         IBMQ.load_account()
         shor = Shor(factor)
