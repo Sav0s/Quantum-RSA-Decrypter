@@ -1,4 +1,4 @@
-from lib.Decrypt import NumericDecrypter
+from lib.Decrypt import QSharpDecrypter
 from lib.rsa import RSA
 
 
@@ -10,7 +10,7 @@ def main():
     rsa = RSA(bits)
     message = "This message is encrypted"
     cipher = rsa.encrypt(message)
-    decrypter = NumericDecrypter()
+    decrypter = QSharpDecrypter()
 
     print("_____Starting Brute Force_____")
     p, q = decrypter.factorize()
