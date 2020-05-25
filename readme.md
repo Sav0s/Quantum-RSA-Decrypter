@@ -1,4 +1,4 @@
-* Create a virtual Python environment (Version >= 3.7) and activate it. Afterwards install the requirements with:
+* Create a virtual Python environment (Version <= 3.7) and activate it. Afterwards install the requirements with:
 
 ```
 pip install -r requirements.txt
