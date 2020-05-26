@@ -1,5 +1,5 @@
 env/
-acount.py
+account.py
 obj/
 __pycache__/
 .vscode
