@@ -10,6 +10,7 @@ from acount import token
 
 class Decrypter:
     def __init__(self, factor):
+        self.n = factor
         keySize = len("{0:b}".format(factor))
         self.a = 1
         print(f"Message was encrypted with a key size of {keySize} Bits")
@@ -17,10 +18,12 @@ class Decrypter:
     def factorize(self, factor):
         pass
 
-    def calculateD(self, e, phi):
+    def calculateD(self, e, p, q):
+        phi = (p - 1) * (q - 1)
         a, d, k = self._extgcd(e, phi)
         if d < 0:
             d += phi
+        print(f"Found d: {d}")
         return d
 
     def _extgcd(self, a, b):
@@ -31,6 +34,10 @@ class Decrypter:
             u, s = s, u - q * s
             v, t = t, v - q * t
         return a, u, v
+
+    def decrypt(self, cipher, d):
+        plain = [chr(pow(char, d, self.n)) for char in cipher]
+        return ''.join(plain)
 
 
 class NumericDecrypter(Decrypter):
