@@ -6,20 +6,19 @@ from qiskit import IBMQ, BasicAer
 from qiskit.aqua import QuantumInstance
 from qiskit.aqua.algorithms import Shor
 
-from acount import token
+from account import token
 
 class Decrypter:
     def __init__(self, factor):
         self.n = factor
         keySize = len("{0:b}".format(factor))
         self.a = 1
-        print(f"Message was encrypted with a key size of {keySize} Bits")
+        print(f"Your rsa has a key size of {keySize} Bits")
 
     def factorize(self, factor):
         pass
 
-    def calculateD(self, e, p, q):
-        phi = (p - 1) * (q - 1)
+    def calculateD(self, e, phi):
         a, d, k = self._extgcd(e, phi)
         if d < 0:
             d += phi
@@ -35,8 +34,8 @@ class Decrypter:
             v, t = t, v - q * t
         return a, u, v
 
-    def decrypt(self, cipher, d):
-        plain = [chr(pow(char, d, self.n)) for char in cipher]
+    def decrypt(self, cipher, d, n):
+        plain = [chr(pow(char, d, n)) for char in cipher]
         return ''.join(plain)
 
 
@@ -62,7 +61,7 @@ class IBMDecrypter(Decrypter):
     def __init__(self, factor=15):
         self.factor = factor
         storedAccount = IBMQ.stored_account()
-        if storedAccount == None:
+        if storedAccount == None or storedAccount == {}:
             IBMQ.save_account(token)
         IBMQ.load_account()
         super(IBMDecrypter, self).__init__(factor)
@@ -74,6 +73,12 @@ class IBMDecrypter(Decrypter):
         backend = BasicAer.get_backend('qasm_simulator')
         quantum_instance = QuantumInstance(backend, shots=4)
         computation = shor.run(quantum_instance)
+        while len(computation['factors']) == 0:
+            print("Quantum algorithm went wrong")
+            print("Trying again...")
+            backend = BasicAer.get_backend('qasm_simulator')
+            quantum_instance = QuantumInstance(backend, shots=4)
+            computation = shor.run(quantum_instance)
         result = computation['factors'][0]
         return result[0], result[1]
 

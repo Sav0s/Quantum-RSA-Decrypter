@@ -11,36 +11,31 @@ def main():
     parser.add_argument("-k", "--keysize", type=int, required=False, help="the bitsize of the key for the numeric approach")
     args = parser.parse_args()
 
-    message = "This message is encrypted"
     if args.option == "ibmq":
-        rsa = RSA(15)
-        cipher = rsa.encrypt(message)
-        decrypter = IBMDecrypter()
+        rsa = RSA(n=15)
+        decrypter = IBMDecrypter(rsa.n)
     elif args.option == "qsharp":
-        rsa = RSA(15)
-        cipher = rsa.encrypt(message)
-        decrypter = QSharpDecrypter()
+        rsa = RSA(n=15)
+        decrypter = QSharpDecrypter(rsa.n)
     elif args.option == "numeric" and args.keysize != None:
         bits = args.keysize
         if bits % 2 != 0:
             exit(0)
         bits = int(bits / 2)
-        rsa = RSA(bits)
-        cipher = rsa.encrypt(message)
+        rsa = RSA(bits=bits)
         decrypter = NumericDecrypter(rsa.n)
     else:
         print("Wrong Arguments")
         exit(0)
 
-    print("_____Starting Brute Force_____")
+    print("_____Starting Integer Factorization_____")
     p, q = decrypter.factorize()
+    phi = (p - 1) * (q - 1)
 
-    print(f"Found factors: {p} and {q}")
-    d = decrypter.calculateD(rsa.e, p, q)
-    print("_____Reconstructed Private Key_____")
-    print("_____Decrypting Message_____")
-    reconstructedMessage = decrypter.decrypt(cipher, d)
-    print(reconstructedMessage)
+    d = decrypter.calculateD(rsa.e, phi)
+    
+    print(f"The real private key has the values \t\t(d={rsa.d}, {rsa.n})")
+    print(f"The regenerated private key has the value\t(d={d}, {rsa.n})")
 
 
 if __name__ == '__main__':
