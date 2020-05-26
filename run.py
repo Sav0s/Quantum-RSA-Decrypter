@@ -1,4 +1,4 @@
-from Decrypt import IBMDecrypter
+from Decrypt import NumericDecrypter
 from rsa import RSA
 
 
@@ -10,7 +10,7 @@ def main():
     rsa = RSA(bits)
     message = "This message is encrypted"
     cipher = rsa.encrypt(message)
-    decrypter = IBMDecrypter()
+    decrypter = NumericDecrypter()
 
     print("_____Starting Brute Force_____")
     p, q = decrypter.factorize()
