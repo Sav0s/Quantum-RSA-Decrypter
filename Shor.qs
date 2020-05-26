@@ -1,8 +1,8 @@
-// https://raw.githubusercontent.com/microsoft/Quantum/master/samples/algorithms/integer-factorization/Shor.qs
+namespace IntegerFactorization {
+    // https://raw.githubusercontent.com/microsoft/Quantum/master/samples/algorithms/integer-factorization/Shor.qs
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-namespace Microsoft.Quantum.Samples.IntegerFactorization {
+    // Copyright (c) Microsoft Corporation. All rights reserved.
+    // Licensed under the MIT License.
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Convert;

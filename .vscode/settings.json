@@ -1,5 +1,5 @@
 {
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.pythonPath": "env/bin/python"
+    "python.pythonPath": "/home/fabs/.pyenv/versions/bachelorarbeit/bin/python"
 }

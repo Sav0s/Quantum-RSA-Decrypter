@@ -1,13 +1,12 @@
 import qsharp
 import sys
 
-from Microsoft.Quantum.Samples.IntegerFactorization import FactorInteger
+from IntegerFactorization import FactorInteger
 from qiskit import IBMQ, BasicAer
 from qiskit.aqua import QuantumInstance
 from qiskit.aqua.algorithms import Shor
 
-import acount
-
+from acount import token
 
 class Decrypter:
     def __init__(self, factor):
@@ -59,7 +58,7 @@ class IBMDecrypter(Decrypter):
 
     def factorize(self, factor=15):
         IBMQ.delete_account()
-        IBMQ.save_account(acount.token)
+        IBMQ.save_account(token)
         IBMQ.load_account()
         shor = Shor(factor)
 

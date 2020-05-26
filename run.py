@@ -1,5 +1,5 @@
-from lib.Decrypt import QSharpDecrypter
-from lib.rsa import RSA
+from Decrypt import QSharpDecrypter
+from rsa import RSA
 
 
 def main():
