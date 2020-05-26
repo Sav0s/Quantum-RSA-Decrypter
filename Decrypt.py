@@ -54,12 +54,13 @@ class NumericDecrypter(Decrypter):
 class IBMDecrypter(Decrypter):
     def __init__(self, factor=15):
         self.factor = factor
+        storedAccount = IBMQ.stored_account()
+        if storedAccount == None:
+            IBMQ.save_account(token)
+        IBMQ.load_account()
         super(IBMDecrypter, self).__init__(factor)
 
     def factorize(self, factor=15):
-        IBMQ.delete_account()
-        IBMQ.save_account(token)
-        IBMQ.load_account()
         shor = Shor(factor)
 
         # If you use get_backend('qasm_simulator') don't factor numbers greater than 15, it lasts nearly forever
