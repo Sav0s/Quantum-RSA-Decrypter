@@ -1,3 +1,5 @@
+This Program is only tested on Ubuntu 20.04 and MacOS. Other OS like Windows could have problems with the python imports.
+
 * Create a virtual Python environment (Version <= 3.7) and activate it. Afterwards install the requirements with:
 
 ```
