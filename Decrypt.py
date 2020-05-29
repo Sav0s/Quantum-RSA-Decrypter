@@ -5,6 +5,7 @@ from IntegerFactorization import FactorInteger
 from qiskit import IBMQ, BasicAer
 from qiskit.aqua import QuantumInstance
 from qiskit.aqua.algorithms import Shor
+from qsharp.clients.iqsharp import IQSharpError
 
 from account import token
 
@@ -89,11 +90,16 @@ class QSharpDecrypter(Decrypter):
         super(QSharpDecrypter, self).__init__(factor)
 
     def factorize(self):
-        output = FactorInteger.simulate(
-            number=self.factor,
-            useRobustPhaseEstimation=10,
-            raise_on_stderr=True)
-        return output
+        try:
+            output = FactorInteger.simulate(
+                number=self.factor,
+                useRobustPhaseEstimation=True)
+            if output == None:
+                print("The computation was too big for Q#")
+                exit(0)
+            return output
+        except IQSharpError:
+            return self.factorize()
 
 
 def printProgress(iteration, total):
