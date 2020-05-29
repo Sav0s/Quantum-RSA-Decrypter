@@ -15,11 +15,12 @@ def main():
         rsa = RSA(n=15)
         decrypter = IBMDecrypter(rsa.n)
     elif args.option == "qsharp":
-        rsa = RSA(n=15)
+        rsa = RSA(n=21)
         decrypter = QSharpDecrypter(rsa.n)
     elif args.option == "numeric" and args.keysize != None:
         bits = args.keysize
         if bits % 2 != 0:
+            print("Please provide an even keysize")
             exit(0)
         bits = int(bits / 2)
         rsa = RSA(bits=bits)
@@ -30,11 +31,10 @@ def main():
 
     print("_____Starting Integer Factorization_____")
     p, q = decrypter.factorize()
-    phi = (p - 1) * (q - 1)
+    print("_____Found factors!_____")
 
+    phi = (p - 1) * (q - 1)
     d = decrypter.calculateD(rsa.e, phi)
-    
-    print(f"The real private key has the values \t\t(d={rsa.d}, {rsa.n})")
     print(f"The regenerated private key has the value\t(d={d}, {rsa.n})")
 
 
