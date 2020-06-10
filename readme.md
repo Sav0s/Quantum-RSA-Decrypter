@@ -1,3 +1,5 @@
+This Program is only tested on Ubuntu 20.04 and MacOS. Other OS like Windows could have problems with the python imports.
+
 * Create a virtual Python environment (Version <= 3.7) and activate it. Afterwards install the requirements with:
 
 ```
@@ -11,7 +13,7 @@ dotnet iqsharp install --user
 ```
 If this fails make sure the `.dotnet/tools` folder is in your path (usually in your home folder)
 
-* To execute the IBM Decrypter you have to add a `acount.py` file in the parent directory with the content
+* To execute the IBM Decrypter you have to add a `account.py` file in the parent directory with the content
 ```
 token = '<Your IBM Token>'
 ```
