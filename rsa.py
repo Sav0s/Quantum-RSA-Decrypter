@@ -27,7 +27,7 @@ class RSA:
         self.e = self.__chooseE()
         self.__d = self.__egcd()
         print(f"The public key has the values \t\t(e={self.e}, n={self.n})")
-        print(f"The private key has the values \t\t(d={self.__d}, n={self.n})")
+        # print(f"The private key has the values \t\t(d={self.__d}, n={self.n})")
         print("____________________________________________________________")
 
 

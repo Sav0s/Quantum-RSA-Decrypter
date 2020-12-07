@@ -1,4 +1,6 @@
-from Decrypt import IBMDecrypter, QSharpDecrypter, NumericDecrypter
+from qiskit import IBMQ
+
+from Decrypt import IBMDecrypter, QSharpDecrypter, NumericDecrypter, IBMDecrypterReal
 from rsa import RSA
 
 import argparse
@@ -14,8 +16,11 @@ def main():
     if args.option == "ibmq":
         rsa = RSA(n=15)
         decrypter = IBMDecrypter(rsa.n)
+    elif args.option == "ibmqreal":
+        rsa = RSA(n=15)
+        decrypter = IBMDecrypterReal(rsa.n)
     elif args.option == "qsharp":
-        rsa = RSA(n=21)
+        rsa = RSA(n=33)
         decrypter = QSharpDecrypter(rsa.n)
     elif args.option == "numeric" and args.keysize != None:
         bits = args.keysize
@@ -32,10 +37,11 @@ def main():
     print("_____Starting Integer Factorization_____")
     p, q = decrypter.factorize()
     print("_____Found factors!_____")
+    print(f"The two factors are: {p} and {q}")
 
     phi = (p - 1) * (q - 1)
     d = decrypter.calculateD(rsa.e, phi)
-    print(f"The regenerated private key has the value\t(d={d}, {rsa.n})")
+    # print(f"The regenerated private key has the value\t(d={d}, {rsa.n})")
 
 
 if __name__ == '__main__':
