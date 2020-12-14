@@ -2,7 +2,7 @@ from qiskit import IBMQ
 
 from Decrypt import IBMDecryptor, QSharpDecryptor, NumericDecryptor, IBMDecryptorReal
 from rsa import RSA
-from util import mod_inverse, parseDefaultFactor
+from util import *
 
 import argparse
 
@@ -11,8 +11,9 @@ def main():
     parser = argparse.ArgumentParser(description="Decrypt a rsa-encrypted message.")
     parser.add_argument("-o", "--option", type=str, required=True,
                         help="the way you want to decrypt the message. ibmq, qsharp or numeric")
-    parser.add_argument("-k", "--keysize", type=int, required=False, help="the bitsize of the key for the numeric approach")
     parser.add_argument("-f", "--factor", type=int, required=False, help="the factor for the integer factorization")
+    parser.add_argument("-k", "--keysize", type=int, required=False, help="the bitsize of the key for the numeric approach")
+    
     args = parser.parse_args()
 
     if args.option == "ibmq":
@@ -47,6 +48,13 @@ def main():
     phi = (p - 1) * (q - 1)
     d = mod_inverse(rsa.e, phi)
     print(f"The regenerated private key has the value\t(d={d}, {rsa.n})")
+
+    message = "This should be encrypted"
+    enc = encrypt(message, rsa.e, rsa.n)
+    print(str(enc))
+
+    dec = decrypt(enc, d, rsa.n)
+    print(str(dec))
 
 
 if __name__ == '__main__':

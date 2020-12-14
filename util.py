@@ -4,12 +4,13 @@ def printProgress(iteration, total):
     sys.stdout.write('\r|---Tried %s from %s possibilties---|' % (iteration, total))
     sys.stdout.flush()
 
-def decrypt(self, cipher, d, n):
+def decrypt(cipher, d, n):
     plain = [chr(pow(char, d, n)) for char in cipher]
     return ''.join(plain)
 
-def encrypt(self, msg):
-    return [pow(ord(char), self.e, self.n) for char in msg]
+def encrypt(msg, e, n):
+    return [pow(ord(char), e, n) for char in msg]
+
 
 def mod_inverse(e, phi):
 
