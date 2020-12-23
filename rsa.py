@@ -21,10 +21,22 @@ class RSA:
             self.n = 21
             self.__p = 3
             self.__q = 7
-        else:
+        elif factor == 33:
             self.n = 33
             self.__p = 3
             self.__q = 11
+        elif factor == 35:
+            self.n = 35
+            self.__p = 7
+            self.__q = 5
+        elif factor == 39:
+            self.n = 39
+            self.__p = 13
+            self.__q = 3
+        else:
+            self.n = 51
+            self.__p = 17
+            self.__q = 3
             
         self.__phi = (self.__p - 1) * (self.__q - 1)
         self.e = self.__chooseE()

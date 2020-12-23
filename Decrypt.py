@@ -50,10 +50,9 @@ class IBMDecryptor(Decryptor):
         print(f"Using backend: {backend}")
         quantum_instance = QuantumInstance(backend, shots=1)
         computation = shor.run(quantum_instance)
-        while len(computation['factors']) == 0:
+        if len(computation['factors']) == 0:
             print("Algorithm went wrong")
-            print("Trying again...")
-            computation = shor.run(quantum_instance)
+            return None, None
         result = computation['factors'][0]
         return result[0], result[1]
 
@@ -75,10 +74,9 @@ class IBMDecryptorReal(Decryptor):
 
         quantum_instance = QuantumInstance(device, shots=1024, skip_qobj_validation=False)
         computation = shor.run(quantum_instance)
-        while len(computation['factors']) == 0:
+        if len(computation['factors']) == 0:
             print("Algorithm went wrong")
-            print("Trying again...")
-            computation = shor.run(quantum_instance)
+            return None, None
         result = computation['factors'][0]
         return result[0], result[1]
 
@@ -88,12 +86,11 @@ class QSharpDecryptor(Decryptor):
         self.factor = factor
 
     def factorize(self):
-        output = None
-        while output == None:
-            output = FactorInteger.simulate(
-                number=self.factor,
-                useRobustPhaseEstimation=True)
-            if output == None:
-                print("The computation was too big for Q#")
+        output = FactorInteger.simulate(
+            number=self.factor,
+            useRobustPhaseEstimation=True)
+        if output == None:
+            print("The computation was too big for Q#")
+            return None, None
         return output
 
