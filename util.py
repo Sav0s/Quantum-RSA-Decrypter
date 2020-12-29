@@ -1,7 +1,10 @@
 import sys
+import math
+import Crypto.Random
+import Crypto.Util.number
 
 def printProgress(iteration, total):
-    sys.stdout.write('\r|---Tried %s from %s possibilties---|' % (iteration, total))
+    sys.stdout.write('\r|---Tried %s from %s possibilties---|' % (iteration, round(math.sqrt(total))))
     sys.stdout.flush()
 
 def decrypt(cipher, d, n):
@@ -22,7 +25,7 @@ def mod_inverse(e, phi):
 		return (t, s-(q*t) )
 
 	inv = eea(e,phi)[0]
-	if inv < 1: inv += phi #we only want positive values
+	if inv < 1: inv += phi # we only want positive values
 	return inv
 
 def parseDefaultFactor(factor):
@@ -30,3 +33,6 @@ def parseDefaultFactor(factor):
         return 15
     else: 
         return factor
+
+if __name__ == '__main__':
+    print(int(15052389164821014673).bit_length())

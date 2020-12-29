@@ -34,7 +34,6 @@ def computate():
             if bits % 2 != 0:
                 print("Please provide an even keysize")
                 exit(0)
-            bits = int(bits / 2)
             rsa = RSA(bits=bits)
         else: 
             factor = parseDefaultFactor(args.factor)

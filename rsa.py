@@ -8,10 +8,10 @@ from util import mod_inverse
 
 class RSA:
     def __init__(self, bits=None, factor=15):
-        #Erstelle Primfaktoren mit 
         if bits != None:
-            self.__p = Crypto.Util.number.getPrime(bits, randfunc=Crypto.Random.get_random_bytes)
-            self.__q = Crypto.Util.number.getPrime(bits, randfunc=Crypto.Random.get_random_bytes)
+            primfactorBit = int(bits / 2)
+            self.__p = Crypto.Util.number.getPrime(primfactorBit, randfunc=Crypto.Random.get_random_bytes)
+            self.__q = Crypto.Util.number.getPrime(primfactorBit, randfunc=Crypto.Random.get_random_bytes)
             self.n = self.__p * self.__q
         elif factor == 15:
             self.n = 15
@@ -33,10 +33,18 @@ class RSA:
             self.n = 39
             self.__p = 13
             self.__q = 3
-        else:
+        elif factor == 51:
             self.n = 51
             self.__p = 17
             self.__q = 3
+        elif factor == 55: 
+            self.n = 55
+            self.__p = 5
+            self.__q = 11
+        else:
+            self.n = 65
+            self.__p = 5
+            self.__q = 13
             
         self.__phi = (self.__p - 1) * (self.__q - 1)
         self.e = self.__chooseE()
