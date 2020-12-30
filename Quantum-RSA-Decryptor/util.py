@@ -33,6 +33,3 @@ def parseDefaultFactor(factor):
         return 15
     else: 
         return factor
-
-if __name__ == '__main__':
-    print(int(15052389164821014673).bit_length())
