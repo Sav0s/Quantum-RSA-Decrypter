@@ -41,6 +41,9 @@ There are 3 possible arguments:
         * 65
 * `-k` or `--keysize` (optional):
     * The keysize you want to use for the RSA (only used for the NumericDecryptor)
+
+**IMPORTANT**: To execute the run.py file you have to `cd` into the subdirectory Quantum-RSA-Decryptor, otherwise the namespace of the Q#-File is incorrect.
 ```
-python Quantum-RSA-Decryptor/run.py -o <option> -f <factor> -k <keysize>
+cd Quantum-RSA-Decryptor/
+python run.py -o <option> -f <factor> -k <keysize>
 ```
